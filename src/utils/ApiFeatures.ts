@@ -25,6 +25,8 @@ class ApiFeatures {
 
     sort() {
         if (this.queryString.sort) {
+            // console.log("🚀 ~ file: ApiFeatures.ts:28 ~ ApiFeatures ~ sort ~ this.queryString.sort:", this.queryString.sort)
+            
             const sortBy = this.queryString.sort.split(",").join(" ");
             this.query = this.query.sort(sortBy);
         } else {
