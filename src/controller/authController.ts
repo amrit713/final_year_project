@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 import { Types } from "mongoose";
-import User from "../model/userModel";
+import User, { IModelUser } from "../model/userModel";
 import AppError from "../utils/AppError";
 import catchAsync from "../utils/catchAsync";
 import sendEmail from "../utils/email";
@@ -21,6 +21,37 @@ const signToken = (id: Types.ObjectId) => {
     );
 };
 
+const createSendToken = (
+    user: IModelUser,
+    statusCode: number,
+    res: Response
+) => {
+    const token = signToken(user.id);
+
+    res.cookie("jwt", token, {
+        expires: new Date(
+            Date.now() +
+                parseInt(process.env.JWT_COOKIE_EXPIRES_IN) *
+                    24 *
+                    60 *
+                    60 *
+                    1000
+        ),
+        // secure: true, //works only in https
+        httpOnly: true,
+    });
+
+    user.password = undefined;
+
+    res.status(200).json({
+        status: "success",
+        token,
+        data: {
+            user,
+        },
+    });
+};
+
 export const signup = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const newUser = await User.create({
@@ -36,15 +67,7 @@ export const signup = catchAsync(
             return next(new AppError("Cannot Create Account ", 400));
         }
 
-        const token = signToken(newUser._id);
-
-        res.status(201).json({
-            status: "success",
-            token,
-            data: {
-                user: newUser,
-            },
-        });
+        createSendToken(newUser, 200, res);
     }
 );
 
@@ -62,12 +85,7 @@ export const login = catchAsync(
             return next(new AppError("Incorrect email or password", 401));
         }
 
-        const token = signToken(user._id);
-
-        res.status(201).json({
-            status: "success",
-            token,
-        });
+        createSendToken(user, 200, res);
     }
 );
 
@@ -181,14 +199,6 @@ export const updatePassword = catchAsync(
 
         const token = signToken(user._id);
 
-        user.password = undefined;
-
-        res.status(200).json({
-            status: "success",
-            token,
-            data: {
-                user,
-            },
-        });
+        createSendToken(user, 200, res);
     }
 );
