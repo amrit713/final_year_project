@@ -1,0 +1,23 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#b82f26",
+        "activityBar.background": "#b82f26",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#0b350d",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#b82f26",
+        "statusBar.background": "#8e241d",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#b82f26",
+        "statusBarItem.remoteBackground": "#8e241d",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#8e241d",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#8e241d99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#8e241d",
+    "cSpell.words": ["Ghimire"]
+}
