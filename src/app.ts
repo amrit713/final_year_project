@@ -1,12 +1,15 @@
 import express, { Application } from "express";
-import productRouter from "./routes/productRoute";
-import UserRouter from "./routes/userRoute";
-import globalErrorHandler from "./utils/errorHandler";
+
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
-import xss from "xss-clean"
-import hpp from "hpp"
+// import xss from "xss-clean"
+import hpp from "hpp";
+
+import productRouter from "./routes/productRoute";
+import userRouter from "./routes/userRoute";
+import globalErrorHandler from "./utils/errorHandler";
+import reviewRouter from "./routes/reviewRoute";
 
 const app: Application = express();
 
@@ -30,14 +33,14 @@ app.use(express.json({ limit: "10kb" }));
 app.use(mongoSanitize());
 
 // ! Data sanitization against xss (cross site scripting attack)
-app.use(xss());
+// app.use(xss());
 
 //!prevent parameter pollution
-app.use(hpp({
-    whitelist:[
-        "brand"
-    ]
-}))
+app.use(
+    hpp({
+        whitelist: ["brand"],
+    })
+);
 
 //!serving static files
 // app.use(express.static(`${__dirname}/public`))
@@ -45,7 +48,8 @@ app.use(hpp({
 // !Routes
 
 app.use("/api/v1/product", productRouter);
-app.use("/api/v1/user", UserRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/reviews", reviewRouter);
 
 app.use(globalErrorHandler);
 

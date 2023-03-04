@@ -2,7 +2,7 @@ import express from "express";
 import {
     deleteProduct,
     getProduct,
-    getProducts,
+    getAllProducts,
     postProduct,
     updateProduct,
 } from "../controller/productController";
@@ -11,7 +11,7 @@ const router = express.Router();
 
 router
     .route("/")
-    .get(getProducts)
+    .get(getAllProducts)
     .post(protect, restrictTo("admin"), postProduct);
 
 router

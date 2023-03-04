@@ -4,7 +4,7 @@ import Product from "../model/productModel";
 import ApiFeatures from "../utils/ApiFeatures";
 import AppError from "../utils/AppError";
 
-export const getProducts = catchAsync(
+export const getAllProducts = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const feature = new ApiFeatures(Product.find(), req.query)
             .filter()

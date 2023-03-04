@@ -69,22 +69,20 @@ export const protect = catchAsync(
     }
 );
 
-export const restrictTo = (role: string) => {
+export const restrictTo = (...roles: string[]) => {
     const requestResponse = async (
         req: IGetUserAuthInfoRequest,
         res: Response,
         next: NextFunction
     ) => {
-        if (role !== req.user.role.toLowerCase()) {
+        // roles ['admin', 'lead-guide']. role='user'
+        if (!roles.includes(req.user.role)) {
             return next(
                 new AppError("Permission not to perform this action", 403)
             );
         }
 
-        console.log(
-            "🚀 ~ file: authorizationMiddleware.ts:85 ~ restrictTo ~ req:",
-            req.user.role.toLowerCase()
-        );
+        
 
         next();
     };
