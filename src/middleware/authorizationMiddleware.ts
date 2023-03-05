@@ -34,10 +34,7 @@ export const protect = catchAsync(
         const decoded = await promisify<string, string, JwtPayload>(
             jwt.verify as any
         )(token, secret);
-        console.log(
-            "🚀 ~ file: authorizationMiddleware.ts:34 ~ decoded:",
-            decoded
-        );
+       
 
         //!3. check if user still exists
         const currentUser = await User.findById(decoded.id);

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import Review from "../model/reviewModel";
 import catchAsync from "../utils/catchAsync";
-import ApiFeatures from "../utils/ApiFeatures";
+
 import AppError from "../utils/AppError";
 import { IGetUserAuthInfoRequest } from "../interface/requestInterface";
 
@@ -17,13 +17,10 @@ export const setProductUserIds = catchAsync(
 
 export const getAllReviews = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-        const feature = new ApiFeatures(Review.find(), req.query)
-            .filter()
-            .sort()
-            .paginate()
-            .limitFields();
+        let filter = {};
+        if (req.params.productId) filter = { product: req.params.productId };
 
-        const reviews = await feature.query;
+        const reviews = await Review.find(filter);
 
         res.status(200).json({
             status: "Success",
@@ -53,9 +50,20 @@ export const getReview = catchAsync(
 );
 
 export const createReview = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+        if (!req.body.product) req.body.product = req.params.productId;
+        console.log(
+            "🚀 ~ file: reviewController.ts:58 ~ req.body.product:",
+            req.body.product
+        );
+
+        if (!req.body.user) req.body.user = req.user.id;
+        console.log(
+            "🚀 ~ file: reviewController.ts:60 ~ req.body.user:",
+            req.body.user
+        );
+
         const review = await Review.create(req.body);
-        console.log("🚀 ~ file: reviewController.ts:56 ~ review:", review);
 
         res.status(201).json({
             status: "success",

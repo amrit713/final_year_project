@@ -16,6 +16,7 @@ import {
 } from "../controller/userController";
 import { protect } from "../middleware/authorizationMiddleware";
 
+
 const router = express.Router();
 
 router.get("/me", protect, getMe);
