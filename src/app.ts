@@ -8,7 +8,7 @@ import hpp from "hpp";
 
 import productRouter from "./routes/productRoute";
 import userRouter from "./routes/userRoute";
-import globalErrorHandler from "./utils/errorHandler";
+import globalErrorHandler from "./middleware/error";
 import reviewRouter from "./routes/reviewRoute";
 
 const app: Application = express();
