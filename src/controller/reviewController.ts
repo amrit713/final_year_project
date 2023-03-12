@@ -58,10 +58,6 @@ export const createReview = catchAsync(
         );
 
         if (!req.body.user) req.body.user = req.user.id;
-        console.log(
-            "🚀 ~ file: reviewController.ts:60 ~ req.body.user:",
-            req.body.user
-        );
 
         const review = await Review.create(req.body);
 

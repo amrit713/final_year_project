@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema(
         name: {
             type: String,
             required: [true, "Product should have a Name"],
+            unique: [true, "Product is already Listed"],
         },
         description: {
             type: String,
@@ -41,6 +42,19 @@ const productSchema = new mongoose.Schema(
             required: [true, "Product should have a category"],
         },
 
+        ratingsAverage: {
+            type: Number,
+            min: [1, "Rating must be above 1.0"],
+            max: [5, "Rating must be below 5.0"],
+            default:1,
+            set: (value: number) => Math.round(value * 10) / 10,
+        },
+
+        ratingsQuantity: {
+            type: Number,
+            default: 0,
+        },
+
         createdAt: {
             type: Date,
             default: Date.now(),
@@ -51,6 +65,9 @@ const productSchema = new mongoose.Schema(
         toObject: { virtuals: true },
     }
 );
+
+//make search fast
+productSchema.index({ price: 1 });
 
 //Virtual populate
 productSchema.virtual("reviews", {
