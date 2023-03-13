@@ -8,6 +8,9 @@ import {
 } from "../controller/productController";
 import { protect, restrictTo } from "../middleware/authorizationMiddleware";
 
+import { uploadProductImages,  resizeProductImages
+ } from "../middleware/uploadForProduct";
+
 import reviewRouter from "../routes/reviewRoute"
 
 const router = express.Router();
@@ -17,12 +20,12 @@ router.use("/:productId/reviews", reviewRouter)
 router
     .route("/")
     .get(getAllProducts)
-    .post(protect, restrictTo("admin"), postProduct);
+    .post(protect, restrictTo("user"), uploadProductImages, resizeProductImages, postProduct);
 
 router
     .route("/:id")
     .get(getProduct)
-    .patch(protect, restrictTo("admin"), updateProduct)
+    .patch(protect, restrictTo("admin"),uploadProductImages, resizeProductImages, updateProduct)
     .delete(protect, restrictTo("admin"), deleteProduct);
 
 
