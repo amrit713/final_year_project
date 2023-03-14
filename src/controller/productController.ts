@@ -3,6 +3,7 @@ import catchAsync from "../utils/catchAsync";
 import Product from "../model/productModel";
 import ApiFeatures from "../utils/ApiFeatures";
 import AppError from "../utils/AppError";
+import Review from "../model/reviewModel";
 
 export const getAllProducts = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -90,7 +91,8 @@ export const updateProduct = catchAsync(
 
 export const deleteProduct = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-        const product = await Product.findByIdAndDelete(req.params.id);
+         await Product.findByIdAndDelete(req.params.id);
+       await Review.deleteMany({product:req.params.id});
 
         res.status(200).json({
             status: "Success",

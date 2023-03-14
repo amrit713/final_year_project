@@ -32,14 +32,21 @@ const productSchema = new mongoose.Schema(
         stock: {
             type: Number,
             default: 1,
+            maxLength:[5, "product name cannot exceed 5 characters"]
         },
         brand: {
             type: String,
             required: [true, "Product should have a brand"],
+            enum:{
+                values:["nike", "adidas", "newbalance", "fila", "puma", "reebok"]
+            }
         },
         category: {
             type: String,
             required: [true, "Product should have a category"],
+            enum:{
+                values:["Running","basketball", "sneakers","training","casual", "formal","sports"]
+            }
         },
 
         ratingsAverage: {
@@ -75,6 +82,7 @@ productSchema.virtual("reviews", {
     localField: "_id", //id of product
     foreignField: "product", //field that present in review
 });
+
 
 const Product = mongoose.model<IProductModel>("Product", productSchema);
 

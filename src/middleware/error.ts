@@ -20,6 +20,7 @@ const handleTokenExpireError = () => {
     return new AppError("Token has Expire. Please login again!!", 401);
 };
 
+
 const errorHandler = (
     err: any,
     req: Request,
@@ -35,6 +36,7 @@ const errorHandler = (
     if (err.code === 11000) err = handleDuplicateFieldsDB(err);
     if (err.name === "JsonWebTokenError") err = handleJWTError();
     if (err.name === "TokenExpiredError") err = handleTokenExpireError();
+
 
     res.status(err.statusCode).json({
         status: err.status,

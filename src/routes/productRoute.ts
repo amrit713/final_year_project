@@ -20,13 +20,13 @@ router.use("/:productId/reviews", reviewRouter)
 router
     .route("/")
     .get(getAllProducts)
-    .post(protect, restrictTo("user"), uploadProductImages, resizeProductImages, postProduct);
+    .post(protect, restrictTo("user"),uploadProductImages, resizeProductImages, postProduct);
 
 router
     .route("/:id")
     .get(getProduct)
     .patch(protect, restrictTo("admin"),uploadProductImages, resizeProductImages, updateProduct)
-    .delete(protect, restrictTo("admin"), deleteProduct);
+    .delete(protect, restrictTo("user"), deleteProduct);
 
 
 

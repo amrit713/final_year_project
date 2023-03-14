@@ -4,6 +4,7 @@ import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 // import xss from "xss-clean"
+import cors from "cors"
 import hpp from "hpp";
 
 import productRouter from "./routes/productRoute";
@@ -13,7 +14,10 @@ import reviewRouter from "./routes/reviewRoute";
 
 const app: Application = express();
 
+
+
 //!GLOBAL MIDDLEWARE
+app.use(cors())
 // !Set security http headers
 app.use(helmet());
 
